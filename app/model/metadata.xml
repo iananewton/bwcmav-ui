@@ -1,0 +1,890 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<edmx:Edmx Version="1.0"
+    xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx" xml:base="https://bwcmav.herokuapp.com/$metadata" xml:id="">
+    <edmx:DataServices m:DataServiceVersion="2.0"
+        xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata">
+        <Schema Namespace="OData"
+            xmlns:d="http://schemas.microsoft.com/ado/2007/08/dataservices"
+            xmlns="http://schemas.microsoft.com/ado/2007/05/edm" xml:id="Schema">
+            <EntityType Name="Input">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="MasterDataId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="InputItemId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="Quantity" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="InputItem" Relationship="OData.Input_InputItem" FromRole="Input" ToRole="InputItem"/>
+                <NavigationProperty Name="MasterDatum" Relationship="OData.Input_MasterDatum" FromRole="Input" ToRole="MasterDatum"/>
+            </EntityType>
+            <EntityType Name="InputItem">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="InputTypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="InputItemName" Type="Edm.String" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="InputType" Relationship="OData.InputItem_InputType" FromRole="InputItem" ToRole="InputType"/>
+                <NavigationProperty Name="Inputs" Relationship="OData.InputItem_Inputs" FromRole="InputItem" ToRole="Inputs"/>
+                <NavigationProperty Name="Vessel" Relationship="OData.InputItem_Vessel" FromRole="InputItem" ToRole="Vessel"/>
+            </EntityType>
+            <EntityType Name="InputType">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="MDTypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="InputTypeDescription" Type="Edm.String" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="InputItems" Relationship="OData.InputType_InputItems" FromRole="InputType" ToRole="InputItems"/>
+                <NavigationProperty Name="MDType" Relationship="OData.InputType_MDType" FromRole="InputType" ToRole="MasterDataType"/>
+            </EntityType>
+            <EntityType Name="Log">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="MasterDataId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="LogTypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="LDateTime" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="LpH" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="LTemp" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="LGravity" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="LBrix" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="LAppProof" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="LActProof" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="LWeight" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="LPG" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="LGallons" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="LogType" Relationship="OData.Log_LogType" FromRole="Log" ToRole="LogRecordType"/>
+                <NavigationProperty Name="MasterDatum" Relationship="OData.Log_MasterDatum" FromRole="Log" ToRole="MasterDatum"/>
+            </EntityType>
+            <EntityType Name="LogRecordType">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="MDTypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="LRTypeDescription" Type="Edm.String" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="Logs" Relationship="OData.LogRecordType_Logs" FromRole="LogRecordType" ToRole="Logs"/>
+                <NavigationProperty Name="MDType" Relationship="OData.LogRecordType_MDType" FromRole="LogRecordType" ToRole="MasterDataType"/>
+            </EntityType>
+            <EntityType Name="MasterDataSubtype">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="MDTypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="MDSubtypeName" Type="Edm.String" Nullable="true"/>
+                <Property Name="SpiritClassId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="UPC" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="MDType" Relationship="OData.MasterDataSubtype_MDType" FromRole="MasterDataSubtype" ToRole="MasterDataType"/>
+                <NavigationProperty Name="MasterData" Relationship="OData.MasterDataSubtype_MasterData" FromRole="MasterDataSubtype" ToRole="MasterData"/>
+                <NavigationProperty Name="SpiritClass" Relationship="OData.MasterDataSubtype_SpiritClass" FromRole="MasterDataSubtype" ToRole="SpiritClass"/>
+            </EntityType>
+            <EntityType Name="MasterDataType">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="MDTypeName" Type="Edm.String" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="InputTypes" Relationship="OData.MasterDataType_InputTypes" FromRole="MasterDataType" ToRole="InputTypes"/>
+                <NavigationProperty Name="LogRecordTypes" Relationship="OData.MasterDataType_LogRecordTypes" FromRole="MasterDataType" ToRole="LogRecordTypes"/>
+                <NavigationProperty Name="MasterData" Relationship="OData.MasterDataType_MasterData" FromRole="MasterDataType" ToRole="MasterData"/>
+                <NavigationProperty Name="MasterDataSubtypes" Relationship="OData.MasterDataType_MasterDataSubtypes" FromRole="MasterDataType" ToRole="MasterDataSubtypes"/>
+            </EntityType>
+            <EntityType Name="MasterDatum">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="MDDateTime" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="ReferenceID" Type="Edm.String" Nullable="true"/>
+                <Property Name="MDSubtypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="VesselId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="ClearingStatus" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="ClearingDateTime" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="Inputs" Relationship="OData.MasterDatum_Inputs" FromRole="MasterDatum" ToRole="Inputs"/>
+                <NavigationProperty Name="Logs" Relationship="OData.MasterDatum_Logs" FromRole="MasterDatum" ToRole="Logs"/>
+                <NavigationProperty Name="MDSubtype" Relationship="OData.MasterDatum_MDSubtype" FromRole="MasterDatum" ToRole="MasterDataSubtype"/>
+                <NavigationProperty Name="MDType" Relationship="OData.MasterDatum_MDType" FromRole="MasterDatum" ToRole="MasterDataType"/>
+                <NavigationProperty Name="Notes" Relationship="OData.MasterDatum_Notes" FromRole="MasterDatum" ToRole="Notes"/>
+                <NavigationProperty Name="Transactions" Relationship="OData.MasterDatum_Transactions" FromRole="MasterDatum" ToRole="Transactions"/>
+                <NavigationProperty Name="VTransactions" Relationship="OData.MasterDatum_VTransactions" FromRole="MasterDatum" ToRole="VTransactions"/>
+                <NavigationProperty Name="Vessel" Relationship="OData.MasterDatum_Vessel" FromRole="MasterDatum" ToRole="Vessel"/>
+            </EntityType>
+            <EntityType Name="Note">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="MasterDataId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="User" Type="Edm.String" Nullable="true"/>
+                <Property Name="NotesObject" Type="Edm.String" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="MasterDatum" Relationship="OData.Note_MasterDatum" FromRole="Note" ToRole="MasterDataType"/>
+            </EntityType>
+            <EntityType Name="SpiritClass">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="ClassName" Type="Edm.String" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="MasterDataSubtypes" Relationship="OData.SpiritClass_MasterDataSubtypes" FromRole="SpiritClass" ToRole="MasterDataSubtypes"/>
+            </EntityType>
+            <EntityType Name="Transaction">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="TrUser" Type="Edm.String" Nullable="true"/>
+                <Property Name="DepositId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="WithdrawalId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="PostingDate" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="AppProof" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="Temp" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="ActProof" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="Weight" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="PG" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="Gallons" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="Bottles" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="MasterData" Relationship="OData.Transaction_MasterData" FromRole="Transaction" ToRole="MasterData"/>
+                <NavigationProperty Name="VTransactions" Relationship="OData.Transaction_VTransactions" FromRole="Transaction" ToRole="VTransactions"/>
+            </EntityType>
+            <EntityType Name="VMasterDatum">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="MDDateTime" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="ReferenceID" Type="Edm.String" Nullable="true"/>
+                <Property Name="MDSubtypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="VesselId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="VesselName" Type="Edm.String" Nullable="true"/>
+                <Property Name="ClearingStatus" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="ClearingDateTime" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="MDTypeName" Type="Edm.String" Nullable="true"/>
+                <Property Name="MDSubtypeName" Type="Edm.String" Nullable="true"/>
+                <Property Name="PG" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="Gallons" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="Bottles" Type="Edm.Decimal" Nullable="true"/>
+                <NavigationProperty Name="MDSubtype" Relationship="OData.VMasterDatum_MDSubtype" FromRole="VMasterDatum" ToRole="MasterDataSubtype"/>
+                <NavigationProperty Name="MDType" Relationship="OData.VMasterDatum_MDType" FromRole="VMasterDatum" ToRole="MasterDataType"/>
+                <NavigationProperty Name="Vessel" Relationship="OData.VMasterDatum_Vessel" FromRole="VMasterDatum" ToRole="Vessel"/>
+            </EntityType>
+            <EntityType Name="VTransaction">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="MasterDataId" Type="Edm.Int32" Nullable="true"/>
+                <NavigationProperty Name="MasterDatum" Relationship="OData.VTransaction_MasterDatum" FromRole="VTransaction" ToRole="MasterDatum"/>
+                <NavigationProperty Name="Transaction" Relationship="OData.VTransaction_Transaction" FromRole="VTransaction" ToRole="Transaction"/>
+            </EntityType>
+            <EntityType Name="VVessel">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="VesselTypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="VesselName" Type="Edm.String" Nullable="true"/>
+                <Property Name="ReceivedOnDate" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="Capacity" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="New" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="Material" Type="Edm.String" Nullable="true"/>
+                <Property Name="Retired" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="VesselTypeName" Type="Edm.String" Nullable="true"/>
+                <NavigationProperty Name="VesselType" Relationship="OData.VVessel_VesselType" FromRole="VVessel" ToRole="VesselType"/>
+            </EntityType>
+            <EntityType Name="Vessel">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="VesselTypeId" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="VesselName" Type="Edm.String" Nullable="true"/>
+                <Property Name="ReceivedOnDate" Type="Edm.DateTime" Nullable="true"/>
+                <Property Name="Capacity" Type="Edm.Decimal" Nullable="true"/>
+                <Property Name="New" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="Material" Type="Edm.String" Nullable="true"/>
+                <Property Name="Retired" Type="Edm.Int32" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="MasterData" Relationship="OData.Vessel_MasterData" FromRole="Vessel" ToRole="MasterData"/>
+                <NavigationProperty Name="VesselType" Relationship="OData.Vessel_VesselType" FromRole="Vessel" ToRole="VesselType"/>
+            </EntityType>
+            <EntityType Name="VesselType">
+                <Key>
+                    <PropertyRef Name="id"/>
+                </Key>
+                <Property Name="id" Type="Edm.Int32" Nullable="false"/>
+                <Property Name="VesselTypeName" Type="Edm.String" Nullable="true"/>
+                <Property Name="created_at" Type="Edm.DateTime" Nullable="false"/>
+                <Property Name="updated_at" Type="Edm.DateTime" Nullable="false" m:FC_TargetPath="SyndicationUpdated" m:FC_ContentKind="text" m:FC_KeepInContent="true"/>
+                <NavigationProperty Name="Vessels" Relationship="OData.VesselType_Vessels" FromRole="VesselType" ToRole="Vessels"/>
+            </EntityType>
+            <Association Name="Input_InputItem">
+                <End Role="Input" Type="OData.Input" Multiplicity="1"/>
+                <End Role="InputItem" Type="OData.InputItem" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Input">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="InputItem">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Input_MasterDatum">
+                <End Role="Input" Type="OData.Input" Multiplicity="1"/>
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Input">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="InputItem_InputType">
+                <End Role="InputItem" Type="OData.InputItem" Multiplicity="1"/>
+                <End Role="InputType" Type="OData.InputType" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="InputItem">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="InputType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="InputItem_Inputs">
+                <End Role="InputItem" Type="OData.InputItem" Multiplicity="1"/>
+                <End Role="Inputs" Type="OData.Input" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="InputItem">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Inputs">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="InputItem_Vessel">
+                <End Role="InputItem" Type="OData.InputItem" Multiplicity="1"/>
+                <End Role="Vessel" Type="OData.Vessel" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="InputItem">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Vessel">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="InputType_InputItems">
+                <End Role="InputType" Type="OData.InputType" Multiplicity="1"/>
+                <End Role="InputItems" Type="OData.InputItem" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="InputType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="InputItems">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="InputType_MDType">
+                <End Role="InputType" Type="OData.InputType" Multiplicity="1"/>
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="InputType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Log_LogType">
+                <End Role="Log" Type="OData.Log" Multiplicity="1"/>
+                <End Role="LogRecordType" Type="OData.LogRecordType" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Log">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="LogRecordType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Log_MasterDatum">
+                <End Role="Log" Type="OData.Log" Multiplicity="1"/>
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Log">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="LogRecordType_Logs">
+                <End Role="LogRecordType" Type="OData.LogRecordType" Multiplicity="1"/>
+                <End Role="Logs" Type="OData.Log" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="LogRecordType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Logs">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="LogRecordType_MDType">
+                <End Role="LogRecordType" Type="OData.LogRecordType" Multiplicity="1"/>
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="LogRecordType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDataSubtype_MDType">
+                <End Role="MasterDataSubtype" Type="OData.MasterDataSubtype" Multiplicity="1"/>
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDataSubtype">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDataSubtype_MasterData">
+                <End Role="MasterDataSubtype" Type="OData.MasterDataSubtype" Multiplicity="1"/>
+                <End Role="MasterData" Type="OData.MasterDatum" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDataSubtype">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterData">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDataSubtype_SpiritClass">
+                <End Role="MasterDataSubtype" Type="OData.MasterDataSubtype" Multiplicity="1"/>
+                <End Role="SpiritClass" Type="OData.SpiritClass" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDataSubtype">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="SpiritClass">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDataType_InputTypes">
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="1"/>
+                <End Role="InputTypes" Type="OData.InputType" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="InputTypes">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDataType_LogRecordTypes">
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="1"/>
+                <End Role="LogRecordTypes" Type="OData.LogRecordType" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="LogRecordTypes">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDataType_MasterData">
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="1"/>
+                <End Role="MasterData" Type="OData.MasterDatum" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterData">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDataType_MasterDataSubtypes">
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="1"/>
+                <End Role="MasterDataSubtypes" Type="OData.MasterDataSubtype" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataSubtypes">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDatum_Inputs">
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <End Role="Inputs" Type="OData.Input" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Inputs">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDatum_Logs">
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <End Role="Logs" Type="OData.Log" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Logs">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDatum_MDSubtype">
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <End Role="MasterDataSubtype" Type="OData.MasterDataSubtype" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataSubtype">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDatum_MDType">
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDatum_Notes">
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <End Role="Notes" Type="OData.Note" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Notes">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDatum_Transactions">
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <End Role="Transactions" Type="OData.Transaction" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Transactions">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDatum_VTransactions">
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <End Role="VTransactions" Type="OData.VTransaction" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="VTransactions">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="MasterDatum_Vessel">
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="1"/>
+                <End Role="Vessel" Type="OData.Vessel" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Vessel">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Note_MasterDatum">
+                <End Role="Note" Type="OData.Note" Multiplicity="1"/>
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Note">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="SpiritClass_MasterDataSubtypes">
+                <End Role="SpiritClass" Type="OData.SpiritClass" Multiplicity="1"/>
+                <End Role="MasterDataSubtypes" Type="OData.MasterDataSubtype" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="SpiritClass">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataSubtypes">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Transaction_MasterData">
+                <End Role="Transaction" Type="OData.Transaction" Multiplicity="1"/>
+                <End Role="MasterData" Type="OData.MasterDatum" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Transaction">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterData">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Transaction_VTransactions">
+                <End Role="Transaction" Type="OData.Transaction" Multiplicity="1"/>
+                <End Role="VTransactions" Type="OData.VTransaction" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Transaction">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="VTransactions">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="VMasterDatum_MDSubtype">
+                <End Role="VMasterDatum" Type="OData.VMasterDatum" Multiplicity="1"/>
+                <End Role="MasterDataSubtype" Type="OData.MasterDataSubtype" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="VMasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataSubtype">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="VMasterDatum_MDType">
+                <End Role="VMasterDatum" Type="OData.VMasterDatum" Multiplicity="1"/>
+                <End Role="MasterDataType" Type="OData.MasterDataType" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="VMasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDataType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="VMasterDatum_Vessel">
+                <End Role="VMasterDatum" Type="OData.VMasterDatum" Multiplicity="1"/>
+                <End Role="Vessel" Type="OData.Vessel" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="VMasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Vessel">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="VTransaction_MasterDatum">
+                <End Role="VTransaction" Type="OData.VTransaction" Multiplicity="1"/>
+                <End Role="MasterDatum" Type="OData.MasterDatum" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="VTransaction">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterDatum">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="VTransaction_Transaction">
+                <End Role="VTransaction" Type="OData.VTransaction" Multiplicity="1"/>
+                <End Role="Transaction" Type="OData.Transaction" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="VTransaction">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Transaction">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="VVessel_VesselType">
+                <End Role="VVessel" Type="OData.VVessel" Multiplicity="1"/>
+                <End Role="VesselType" Type="OData.VesselType" Multiplicity="0..1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="VVessel">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="VesselType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Vessel_MasterData">
+                <End Role="Vessel" Type="OData.Vessel" Multiplicity="1"/>
+                <End Role="MasterData" Type="OData.MasterDatum" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Vessel">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="MasterData">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="Vessel_VesselType">
+                <End Role="Vessel" Type="OData.Vessel" Multiplicity="1"/>
+                <End Role="VesselType" Type="OData.VesselType" Multiplicity="1"/>
+                <ReferentialConstraint>
+                    <Dependent Role="Vessel">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="VesselType">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <Association Name="VesselType_Vessels">
+                <End Role="VesselType" Type="OData.VesselType" Multiplicity="1"/>
+                <End Role="Vessels" Type="OData.Vessel" Multiplicity="*"/>
+                <ReferentialConstraint>
+                    <Dependent Role="VesselType">
+                        <PropertyRef Name="id"/>
+                    </Dependent>
+                    <Principal Role="Vessels">
+                        <PropertyRef Name="id"/>
+                    </Principal>
+                </ReferentialConstraint>
+            </Association>
+            <EntityContainer Name="OData" m:IsDefaultEntityContainer="true">
+                <EntitySet Name="Inputs" EntityType="OData.Input"/>
+                <EntitySet Name="InputItems" EntityType="OData.InputItem"/>
+                <EntitySet Name="InputTypes" EntityType="OData.InputType"/>
+                <EntitySet Name="Logs" EntityType="OData.Log"/>
+                <EntitySet Name="LogRecordTypes" EntityType="OData.LogRecordType"/>
+                <EntitySet Name="MasterDataSubtypes" EntityType="OData.MasterDataSubtype"/>
+                <EntitySet Name="MasterDataTypes" EntityType="OData.MasterDataType"/>
+                <EntitySet Name="MasterData" EntityType="OData.MasterDatum"/>
+                <EntitySet Name="Notes" EntityType="OData.Note"/>
+                <EntitySet Name="SpiritClasses" EntityType="OData.SpiritClass"/>
+                <EntitySet Name="Transactions" EntityType="OData.Transaction"/>
+                <EntitySet Name="VMasterData" EntityType="OData.VMasterDatum"/>
+                <EntitySet Name="VTransactions" EntityType="OData.VTransaction"/>
+                <EntitySet Name="VVessels" EntityType="OData.VVessel"/>
+                <EntitySet Name="Vessels" EntityType="OData.Vessel"/>
+                <EntitySet Name="VesselTypes" EntityType="OData.VesselType"/>
+                <AssociationSet Name="Input_InputItem" Association="OData.Input_InputItem">
+                    <End EntitySet="Inputs" Role="Input"/>
+                    <End EntitySet="InputItems" Role="InputItem"/>
+                </AssociationSet>
+                <AssociationSet Name="Input_MasterDatum" Association="OData.Input_MasterDatum">
+                    <End EntitySet="Inputs" Role="Input"/>
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                </AssociationSet>
+                <AssociationSet Name="InputItem_InputType" Association="OData.InputItem_InputType">
+                    <End EntitySet="InputItems" Role="InputItem"/>
+                    <End EntitySet="InputTypes" Role="InputType"/>
+                </AssociationSet>
+                <AssociationSet Name="InputItem_Inputs" Association="OData.InputItem_Inputs">
+                    <End EntitySet="InputItems" Role="InputItem"/>
+                    <End EntitySet="Inputs" Role="Inputs"/>
+                </AssociationSet>
+                <AssociationSet Name="InputItem_Vessel" Association="OData.InputItem_Vessel">
+                    <End EntitySet="InputItems" Role="InputItem"/>
+                    <End EntitySet="Vessels" Role="Vessel"/>
+                </AssociationSet>
+                <AssociationSet Name="InputType_InputItems" Association="OData.InputType_InputItems">
+                    <End EntitySet="InputTypes" Role="InputType"/>
+                    <End EntitySet="InputItems" Role="InputItems"/>
+                </AssociationSet>
+                <AssociationSet Name="InputType_MDType" Association="OData.InputType_MDType">
+                    <End EntitySet="InputTypes" Role="InputType"/>
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                </AssociationSet>
+                <AssociationSet Name="Log_LogType" Association="OData.Log_LogType">
+                    <End EntitySet="Logs" Role="Log"/>
+                    <End EntitySet="LogRecordTypes" Role="LogRecordType"/>
+                </AssociationSet>
+                <AssociationSet Name="Log_MasterDatum" Association="OData.Log_MasterDatum">
+                    <End EntitySet="Logs" Role="Log"/>
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                </AssociationSet>
+                <AssociationSet Name="LogRecordType_Logs" Association="OData.LogRecordType_Logs">
+                    <End EntitySet="LogRecordTypes" Role="LogRecordType"/>
+                    <End EntitySet="Logs" Role="Logs"/>
+                </AssociationSet>
+                <AssociationSet Name="LogRecordType_MDType" Association="OData.LogRecordType_MDType">
+                    <End EntitySet="LogRecordTypes" Role="LogRecordType"/>
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDataSubtype_MDType" Association="OData.MasterDataSubtype_MDType">
+                    <End EntitySet="MasterDataSubtypes" Role="MasterDataSubtype"/>
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDataSubtype_MasterData" Association="OData.MasterDataSubtype_MasterData">
+                    <End EntitySet="MasterDataSubtypes" Role="MasterDataSubtype"/>
+                    <End EntitySet="MasterData" Role="MasterData"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDataSubtype_SpiritClass" Association="OData.MasterDataSubtype_SpiritClass">
+                    <End EntitySet="MasterDataSubtypes" Role="MasterDataSubtype"/>
+                    <End EntitySet="SpiritClasses" Role="SpiritClass"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDataType_InputTypes" Association="OData.MasterDataType_InputTypes">
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                    <End EntitySet="InputTypes" Role="InputTypes"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDataType_LogRecordTypes" Association="OData.MasterDataType_LogRecordTypes">
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                    <End EntitySet="LogRecordTypes" Role="LogRecordTypes"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDataType_MasterData" Association="OData.MasterDataType_MasterData">
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                    <End EntitySet="MasterData" Role="MasterData"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDataType_MasterDataSubtypes" Association="OData.MasterDataType_MasterDataSubtypes">
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                    <End EntitySet="MasterDataSubtypes" Role="MasterDataSubtypes"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDatum_Inputs" Association="OData.MasterDatum_Inputs">
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                    <End EntitySet="Inputs" Role="Inputs"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDatum_Logs" Association="OData.MasterDatum_Logs">
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                    <End EntitySet="Logs" Role="Logs"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDatum_MDSubtype" Association="OData.MasterDatum_MDSubtype">
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                    <End EntitySet="MasterDataSubtypes" Role="MasterDataSubtype"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDatum_MDType" Association="OData.MasterDatum_MDType">
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDatum_Notes" Association="OData.MasterDatum_Notes">
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                    <End EntitySet="Notes" Role="Notes"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDatum_Transactions" Association="OData.MasterDatum_Transactions">
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                    <End EntitySet="Transactions" Role="Transactions"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDatum_VTransactions" Association="OData.MasterDatum_VTransactions">
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                    <End EntitySet="VTransactions" Role="VTransactions"/>
+                </AssociationSet>
+                <AssociationSet Name="MasterDatum_Vessel" Association="OData.MasterDatum_Vessel">
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                    <End EntitySet="Vessels" Role="Vessel"/>
+                </AssociationSet>
+                <AssociationSet Name="Note_MasterDatum" Association="OData.Note_MasterDatum">
+                    <End EntitySet="Notes" Role="Note"/>
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                </AssociationSet>
+                <AssociationSet Name="SpiritClass_MasterDataSubtypes" Association="OData.SpiritClass_MasterDataSubtypes">
+                    <End EntitySet="SpiritClasses" Role="SpiritClass"/>
+                    <End EntitySet="MasterDataSubtypes" Role="MasterDataSubtypes"/>
+                </AssociationSet>
+                <AssociationSet Name="Transaction_MasterData" Association="OData.Transaction_MasterData">
+                    <End EntitySet="Transactions" Role="Transaction"/>
+                    <End EntitySet="MasterData" Role="MasterData"/>
+                </AssociationSet>
+                <AssociationSet Name="Transaction_VTransactions" Association="OData.Transaction_VTransactions">
+                    <End EntitySet="Transactions" Role="Transaction"/>
+                    <End EntitySet="VTransactions" Role="VTransactions"/>
+                </AssociationSet>
+                <AssociationSet Name="VMasterDatum_MDSubtype" Association="OData.VMasterDatum_MDSubtype">
+                    <End EntitySet="VMasterData" Role="VMasterDatum"/>
+                    <End EntitySet="MasterDataSubtypes" Role="MasterDataSubtype"/>
+                </AssociationSet>
+                <AssociationSet Name="VMasterDatum_MDType" Association="OData.VMasterDatum_MDType">
+                    <End EntitySet="VMasterData" Role="VMasterDatum"/>
+                    <End EntitySet="MasterDataTypes" Role="MasterDataType"/>
+                </AssociationSet>
+                <AssociationSet Name="VMasterDatum_Vessel" Association="OData.VMasterDatum_Vessel">
+                    <End EntitySet="VMasterData" Role="VMasterDatum"/>
+                    <End EntitySet="Vessels" Role="Vessel"/>
+                </AssociationSet>
+                <AssociationSet Name="VTransaction_MasterDatum" Association="OData.VTransaction_MasterDatum">
+                    <End EntitySet="VTransactions" Role="VTransaction"/>
+                    <End EntitySet="MasterData" Role="MasterDatum"/>
+                </AssociationSet>
+                <AssociationSet Name="VTransaction_Transaction" Association="OData.VTransaction_Transaction">
+                    <End EntitySet="VTransactions" Role="VTransaction"/>
+                    <End EntitySet="Transactions" Role="Transaction"/>
+                </AssociationSet>
+                <AssociationSet Name="VVessel_VesselType" Association="OData.VVessel_VesselType">
+                    <End EntitySet="VVessels" Role="VVessel"/>
+                    <End EntitySet="VesselTypes" Role="VesselType"/>
+                </AssociationSet>
+                <AssociationSet Name="Vessel_MasterData" Association="OData.Vessel_MasterData">
+                    <End EntitySet="Vessels" Role="Vessel"/>
+                    <End EntitySet="MasterData" Role="MasterData"/>
+                </AssociationSet>
+                <AssociationSet Name="Vessel_VesselType" Association="OData.Vessel_VesselType">
+                    <End EntitySet="Vessels" Role="Vessel"/>
+                    <End EntitySet="VesselTypes" Role="VesselType"/>
+                </AssociationSet>
+                <AssociationSet Name="VesselType_Vessels" Association="OData.VesselType_Vessels">
+                    <End EntitySet="VesselTypes" Role="VesselType"/>
+                    <End EntitySet="Vessels" Role="Vessels"/>
+                </AssociationSet>
+            </EntityContainer>
+        </Schema>
+    </edmx:DataServices>
+</edmx:Edmx>

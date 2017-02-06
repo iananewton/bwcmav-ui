@@ -1,0 +1,93 @@
+<core:View xmlns:core="sap.ui.core" 
+	xmlns:l="sap.ui.layout" xmlns="sap.m" xmlns:table="sap.ui.table"
+	controllerName="BWC_Dashboard.view.Master">
+
+	<Page id="productListPage" title="{i18n>masterTitle}" showNavButton="true" navButtonPress="onNavBack" >
+		<content>
+		    <l:VerticalLayout id="containerLayout" width="100%" >
+        		<l:BlockLayout id="BlockLayout">
+        			<l:BlockLayoutRow accentCells="Accent1">
+        				<l:BlockLayoutCell
+        						id="BlockLayoutCellCatalog"
+        						width="2"
+        						title="Work">
+                			<Table id="catalogTable" class="navTableControlLayout" 
+                				items="{
+                    				path: '/MasterData',
+                    				factory: '.masterDataListFactory',
+                    				parameters : {expand:'MDSubtype,Transactions,Vessel'},
+                    				sorter : {
+                        				path : 'id',
+                        				descending : true
+                        			},
+                        			events :{
+                        			    dataReceived : '.onMasterDataReceived'
+                        			}
+                    			}"
+                				growing="true" growingScrollToLoad="true">
+                				
+                				<headerToolbar id ="catalogTable_headerToolbar">
+                					<Toolbar id="tableToolbar">
+                						<Label id="catalogTitle" text="{viewProperties>/catalogTitleText}" class="sapMH4FontSize" visible="{viewProperties>/catalogTitleVisible}" />
+                						<Button icon="sap-icon://add" press="onCreateNewMasterData" type="Transparent">
+                                            <layoutData>
+                                                <OverflowToolbarLayoutData priority="NeverOverflow" />
+                                            </layoutData>
+                                        </Button>
+                						<ToolbarSpacer id="toolbarSpacer1" />
+                						
+                						<!--Filter by open/clear-->
+                						<Label text="Only Open" />
+                						<Switch id="onlyOpenSwitch" state="{ui>/OpenFilter/isactive}" change="openToggle">
+                        					<layoutData>
+                        						<FlexItemData growFactor="2" />
+                        					</layoutData>
+                        				</Switch>
+                						<ToolbarSpacer id="toolbarSpacer2" />
+                						
+                						<!--Filter by MDType icons-->
+                						<ToggleButton icon="sap-icon://customfont/Mashing" pressed="{ui>/TypeFilter/types/Mash}" press="onFilterByType" id="MashToggle">
+                        					<layoutData>
+                        						<FlexItemData growFactor="1" />
+                        					</layoutData>
+                        				</ToggleButton>
+                						<ToggleButton icon="sap-icon://customfont/Ferm" pressed="{ui>/TypeFilter/types/Ferm}" press="onFilterByType" id="FermToggle">
+                        					<layoutData>
+                        						<FlexItemData growFactor="1" />
+                        					</layoutData>
+                        				</ToggleButton>
+                						<ToggleButton icon="sap-icon://customfont/Production" pressed="{ui>/TypeFilter/types/Prod}" press="onFilterByType" id="ProdToggle">
+                        					<layoutData>
+                        						<FlexItemData growFactor="1" />
+                        					</layoutData>
+                        				</ToggleButton>
+                						<ToggleButton icon="sap-icon://customfont/Storage" pressed="{ui>/TypeFilter/types/Stor}" press="onFilterByType" id="StorToggle">
+                        					<layoutData>
+                        						<FlexItemData growFactor="1" />
+                        					</layoutData>
+                        				</ToggleButton>
+                						<ToggleButton icon="sap-icon://customfont/Processing" pressed="{ui>/TypeFilter/types/Proc}" press="onFilterByType" id="ProcToggle">
+                        					<layoutData>
+                        						<FlexItemData growFactor="1" />
+                        					</layoutData>
+                        				</ToggleButton>
+                
+                						<SearchField id="searchField" liveChange="onSearchReferenceID"  placeholder="Ref ID..."
+                						tooltip="{i18n>masterSearchTooltip}" width="{viewProperties>/searchFieldWidth}" />
+                					</Toolbar>
+                				</headerToolbar>
+                			</Table>
+            			</l:BlockLayoutCell>
+            			<l:BlockLayoutCell
+        						id="BlockLayoutCellOverview"
+        						width="2"
+        						title="Overview">
+						</l:BlockLayoutCell>
+        			</l:BlockLayoutRow>
+                </l:BlockLayout>
+			</l:VerticalLayout>
+		</content>
+		<footer>
+		</footer>
+	</Page>
+</core:View>

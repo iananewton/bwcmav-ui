@@ -1,0 +1,305 @@
+<core:View xmlns:core="sap.ui.core" xmlns="sap.m" xmlns:ui="sap.ca.ui"
+	 xmlns:f="sap.ui.layout.form"
+	xmlns:l="sap.ui.layout" controllerName="BWC_Dashboard.view.Details">
+	<Page id="DetailsPage" title="{i18n>detailTitle}" showNavButton="true" navButtonPress="onNavBack">
+		<content>
+			<ObjectHeader id="details_object_header" 
+				title="{ReferenceID}"
+				number="{MDDateTime}"
+				numberUnit="" >	
+				<statuses id="details_statuses">
+					<ObjectStatus id="details_statuses_status1"
+    				    text="{
+            				path: 'ReferenceID',
+            				formatter: '.formatter.test'
+            			}"
+					>
+					</ObjectStatus>
+					
+				</statuses>
+				
+				<attributes id="details_attributes"> 
+						<ObjectAttribute id="details_attributes_att1"
+						title="Type" text="{MDSubtype/MDSubtypeName}" >					
+						</ObjectAttribute> 
+				</attributes>
+			</ObjectHeader>
+			
+			<IconTabBar
+				id="iconTabBarDetailContent"
+				expanded="true"
+				selectedKey="home"
+				upperCase="true"
+				class="sapUiResponsiveContentPadding">
+				<items>
+				
+    			<!--Home Tab-->
+    				<IconTabFilter
+    				    icon="sap-icon://home"
+    					text="Home"
+    					key="home">
+    					<content
+    					    id="headerContent">
+    					    <l:VerticalLayout id="headerContainerLayout" width="100%" >
+                        		<l:BlockLayout id="headerBlockLayout" background="Default">
+                        			<l:BlockLayoutRow>
+                        				<l:BlockLayoutCell
+                        						title="Header"
+                        						width="2"
+                        						id="headerCell">
+                        				    <OverflowToolbar design="Transparent" height="3rem">
+                                        		<ToggleButton 
+                                				    id="headerToggleChangeButton"
+                                				    icon="sap-icon://edit" 
+                                				    press="onToggleChangeHeader" />
+                                				<Button 
+                                				    icon="sap-icon://save"
+                                				    id="headerSaveButton"
+                                				    press="onHeaderSubmitChange"
+                                				    enabled="false"/>
+                                        	</OverflowToolbar>
+                        				    
+                                            <f:SimpleForm
+                    							id="headerDisplayForm"
+                    							layout="ResponsiveGridLayout"
+                    							labelSpanL="3"
+                                    			labelSpanM="3"
+                                    			breakpointL="900"
+                                    			breakpointM="500"
+                                    			adjustLabelSpan="true"
+                                    			emptySpanL="0"
+                                    			emptySpanM="0"
+                                    			columnsL="2"
+                                    			columnsM="2"
+                                    			columnsS="2"
+                    							editable="true"
+                    							width="100%">
+                        					    <core:Title text="General Data" />
+                        						<Label text="Reference" />
+                        						<Text text="{ReferenceID}" />
+                        						<Label text="Type" />
+                        						<Text text="{MDType/MDTypeName}" />
+                        					    <Label text="Subtype" />
+                        						<Text text="{MDSubtype/MDSubtypeName}" />
+                        						<Label text="Date" />
+                        						<Text
+                                        			text="{
+                                        			    path:'MDDateTime', 
+                                        			    type:'sap.ui.model.type.Date', 
+                                        			    formatOptions: { style: 'medium'}
+                                        			    }"/>
+                        						<Label text="Vessel" />
+                        						<Text text="{Vessel/VesselName}" />
+                        						
+                        						<core:Title text="Production Amounts" />
+                        						<Label text="Volume"/>
+                        						<Text text=""/>
+                        						<Label text="Gallons"/>
+                        						<Text text=""/>
+                        						<Label text="Bottles"/>
+                        						<Text text="" />
+                        					</f:SimpleForm>
+                        					
+                                            <f:SimpleForm
+                    							id="headerChangeForm"
+                    							layout="ResponsiveGridLayout"
+                    							labelSpanL="3"
+                                    			labelSpanM="3"
+                                    			breakpointL="900"
+                                    			breakpointM="500"
+                                    			adjustLabelSpan="true"
+                                    			emptySpanL="0"
+                                    			emptySpanM="0"
+                                    			columnsL="2"
+                                    			columnsM="2"
+                                    			columnsS="2"
+                    							editable="true"
+                    							width="100%"
+                    							visible="false">
+                        					    <core:Title text="General Data" />
+                        						<core:InvisibleText id="MasterDataID" />
+                        						
+                        						<Label text="Reference"/>
+                        						<Input id="ReferenceID"/>
+                        					    <Label text="Subtype" />
+                        						<Select
+                        						    id="MasterDataSubtypeSelect"
+                                					forceSelection="false"
+                                					items="{
+                                						path: '/MasterDataSubtypes',
+                                						sorter: { path: 'id' },
+                                						parameters : {expand:'MDType'}
+                                					}">
+                                					<core:Item key="{id},{MDType/id}" text="{MDType/MDTypeName} - {MDSubtypeName}" />
+                                				</Select>
+                        						<Label text="Date" />
+                        						<DatePicker
+                                        			id="MDDateTime"
+                                        			class="sapUiSmallMarginBottom"
+                                    			/>
+                        						<Label text="Vessel" />
+                        						<Select
+                        						    id="MasterDataVesselSelect"
+                                					forceSelection="false"
+                                					items="{
+                                						path: '/Vessels',
+                                						sorter: { path: 'id' }
+                                					}">
+                                					<core:Item key="{id}" text="{VesselName}" />
+                                				</Select>
+                    						</f:SimpleForm>
+                                        </l:BlockLayoutCell>
+                                        
+                                        <l:BlockLayoutCell
+                        						title="Relationships"
+                        						width="2">
+                        					<Table id="relationshipsTable"
+                                            	inset="false"
+                                            	enableCustomFilter="true"
+                                            	editable="false">
+                                                	<columns>
+                                                		<Column vAlign="Middle">
+                                                			<Text text="Reference" />
+                                                		</Column>
+                                                		<Column
+                                                		    hAlign="Center"
+                                                		    vAlign="Middle"
+                                                			minScreenWidth="Tablet"
+                                                			demandPopin="true"
+                                                			>
+                                                			<Text text="Type" />
+                                                		</Column>
+                                                		<Column
+                                                		    hAlign="Center"
+                                                		    vAlign="Middle"
+                                                			minScreenWidth="Tablet"
+                                                			demandPopin="true"
+                                                			>
+                                                			<Text text="Date" />
+                                                		</Column>
+                                                		<Column
+                                                		    hAlign="Center"
+                                                		    vAlign="Middle"
+                                                			minScreenWidth="Tablet"
+                                                			demandPopin="true">
+                                                			<Text text="Status" />
+                                                		</Column>
+                                                	</columns>
+                                                </Table>
+                						</l:BlockLayoutCell>
+            						</l:BlockLayoutRow>
+        						</l:BlockLayout>
+                            </l:VerticalLayout>
+    					</content>
+    				</IconTabFilter>
+    				
+				<!-- Notes -->
+    				<IconTabFilter
+    				    icon="sap-icon://notes"
+    					text="Notes"
+    					key="key2">
+    					<content>
+    						<l:VerticalLayout
+    							class="sapUiContentPadding"
+    							width="100%">
+    							<l:BlockLayout>
+                        			<l:BlockLayoutRow>
+            							<l:BlockLayoutCell
+                            					width="2"
+                            					title="">
+                            				<f:SimpleForm
+                            					
+                            					layout="ResponsiveGridLayout"
+                            					backgroundDesign="Solid"
+                            					>
+                                                <Label 
+                            				        text=""
+                            				        width="100%"/>
+                            				    <Select 
+                                    		        
+                                    		        forceSelection="false"
+                                                    change=""
+                                                    items="{}"
+                                    		        >
+                                    		        <core:Item 
+                                    				    
+                                    				    text="{}"
+                                    				    key="{}"
+                                    				     />
+                                                </Select> 
+                                                <core:Title text=""/>
+                                                <FeedInput
+                                                    
+                                            		class="sapUiSmallMarginTopBottom" />
+                            				</f:SimpleForm>
+                            			</l:BlockLayoutCell>
+                            			
+                            			<l:BlockLayoutCell
+                            					width="2"
+                            					title="{}">
+                        					<List id="interactionsList">
+                                			    <FeedListItem
+                            				    id="interactionsTemplate"
+                            					icon="{}"
+                            					showIcon="true" 
+                            					info="{}"
+                            					timestamp="{}"
+                            					text=""/>
+                                			</List>
+                    					</l:BlockLayoutCell>
+            					    </l:BlockLayoutRow>
+            					</l:BlockLayout>
+    						</l:VerticalLayout>
+    					</content>
+    				</IconTabFilter>
+				</items>
+			</IconTabBar>
+
+			<!--Extension Point 1-->
+			<!--<core:ExtensionPoint name="extensionAfterObjectHeader" />-->
+
+			<!--Navigation Table -->
+			<!--<Table id="navigationTable" class="navTableControlLayout"
+				growing="true" growingScrollToLoad="true">
+				<headerToolbar id="navigationTable_headerToolbar">
+					<Toolbar id="navigationTable_headerToolbar_toolbar"> 
+					    <Label id="navigationTable_headerToolbar_toolbar_title" text="Transactions" class="sapMH4FontSize" />					
+					</Toolbar>
+				</headerToolbar>
+				<columns id="navigationTable_columns">
+					<Column id="navigationTable_columns_col1" width="33%" minScreenWidth="Tablet" demandPopin="true"
+						hAlign="Left" vAlign="Top">
+						<header id="navigationTable_columns_col1_header"> 
+						<Label id="navigationTable_columns_col1_header_label" text="" />						
+						</header>
+					</Column>
+					
+					<Column id="navigationTable_columns_col2"  width="33%" minScreenWidth="Tablet" demandPopin="true"
+						hAlign="Left" vAlign="Top">
+						<header id="navigationTable_columns_col2_header"> 
+						<Label id="navigationTable_columns_col2_header_label" text="" />						
+						</header>
+					</Column>
+					
+					<Column id="navigationTable_columns_col3" width="33%" minScreenWidth="Tablet" demandPopin="true"
+						hAlign="Left" vAlign="Top">
+						<header id="navigationTable_columns_col3_header"> 
+						<Label id="navigationTable_columns_col3_header_label" text="" />						
+						</header>
+					</Column>
+				</columns>
+				<ColumnListItem id="navigationListItem">
+					<cells id="navigationListItem_cells"> 
+						<Text id="navigationListItem_cells_cell_1" text="{PG}" /> 
+						<Text id="navigationListItem_cells_cell_2" text="{PostingDate}" /> 
+						<Text id="navigationListItem_cells_cell_3" text="{ActProof}" />						
+					</cells>
+				</ColumnListItem>
+			</Table>-->
+			<!--Extension Point 2-->
+			<!--<core:ExtensionPoint name="extensionAfterNavigationTable" />-->
+		</content>
+		<footer>
+		</footer>		
+	</Page>
+</core:View>
